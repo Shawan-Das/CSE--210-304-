@@ -1,0 +1,115 @@
+<:::: Basic Routing ::::>
+Router>
+en
+conf t
+int fa0/0
+ip address 192.168.10.1 255.255.255.128
+no shut
+exit
+int fa1/0
+ip address 192.168.20.1 255.255.255.128
+no shut
+exit
+int fa2/0
+ip address 192.168.30.1 255.255.255.128
+no shut
+exit
+:
+:
+:
+
+
+<:::: Static Routing ::::>
+Router>
+en
+conf t
+int fa0/0
+ip address 192.168.30.1 255.255.255.128
+no shut
+exit
+int fa1/0
+ip address 192.168.20.1 255.255.255.128
+no shut
+exit
+ip route 192.168.10.0 255.255.255.128 192.168.20.2
+exit
+:
+:
+:
+
+<:::: Router RIP version 1 ::::>
+Router>
+en
+conf t
+int fa0/0
+ip address 192.168.1.1 255.255.255.192
+no shut
+exit
+int fa1/0
+ip address 192.168.1.201 255.255.255.252
+no shut
+exit
+int fa2/0
+ip address 192.168.1.197 255.255.255.252
+no shut
+exit
+router rip
+network 192.168.1.0
+network 192.168.1.200
+network 192.168.1.196
+exit
+:
+:
+:
+
+<:::: Router RIP version 2 ::::>
+Router>
+en
+conf t
+int fa0/0
+ip address 192.168.30.1 255.255.255.128
+no shut
+exit
+int fa1/0
+ip address 192.168.20.1 255.255.255.128
+no shut
+exit
+router rip
+version 2
+network 192.168.30.0
+network 192.168.20.0
+no auto summary
+exit
+:
+:
+:
+
+<:::: VLAN Configuration ::::>
+#Note: we have 2 different sides 4computers in each. 2's are IT(vlan10) and 2's are HQ(vlan20) fa0/5 is switch connector.(fa0/1-4 pc connectors) #(Same vlan same network :) )
+switch>
+en
+conf t
+vlan 10
+name IT
+exit
+vlan20
+name HQ
+exit
+int fa0/1
+switchport access vlan 20
+exit
+int fa0/2
+switchport access vlan 20
+exit
+int fa0/3
+switchport access vlan 10
+exit
+int fa0/4
+switchport access vlan 10
+exit
+int fa0/5
+switchport mode trunk
+exit
+interface range fa0/1-4
+switchport mode access
+exit
