@@ -113,3 +113,16 @@ exit
 interface range fa0/1-4
 switchport mode access
 exit
+
+<::::OSPF Configuration::::::>
+router ospf 1
+network 192.168.60.0 255.255.255.255-subnet mask
+------------------
+exit
+
+
+<:::::EIGRP:::::::>
+router eigrp 1
+network 20.0.0.0
+----------------
+exit
