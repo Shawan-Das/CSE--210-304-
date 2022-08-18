@@ -1,0 +1,116 @@
+% Author: Shawan Das(19101020)
+% Date: 8/12/2022
+
+%                       ------- Gender -----------
+male(joseph).   female(edwina).
+male(paul).   female(marie).
+male(charles).   female(claudette).
+male(david).   female(daisy).
+male(edward).   female(emma).
+male(frank).   female(felicity).
+male(james).   female(ava).
+male(george).   female(gwen).
+male(harry).   female(sophia).
+male(lucas).   female(harper).
+male(liam).   female(olivia).
+male(oliver).   female(charlotte).
+male(ingeborg).
+
+
+%------- can be ignore. Tey have no root -------
+stop(paul).   stop(claudette).  stop(daisy).
+stop(edward).  stop(gwen).      stop(ava).
+stop(felicity). stop(olivia).   stop(charlotte).
+
+%                       -------Declare Facts-----------
+
+%---------- 5th gen-------
+father(oliver,lngeborg).
+mother(chaelotte, lngeborg).
+
+%---------- 4th gen--------
+father(liam,oliver).
+mother(olivia,oliver).
+
+%---------- 3rd gen-------
+father(frank, harry).
+mother(felicity, harry).
+father(james, sophia).
+mother(ava, sophia).
+father(james, lucas).
+mother(ava, lucas).
+father(james, harper).
+mother(ava, harper).
+father(george,liam).
+mother(gwen, liam).
+
+% -------- 2nd gen--------
+father(david, frank).
+mother(daisy, frank).
+father(david, james).
+mother(daisy, james).
+fatehr(edward, george).
+mother(emma, george).
+
+%----------1st gen----------
+father(paul, david).
+mother(marie, david).
+father(charles, emma).
+mother(claudette, emma).
+
+%------- order -------
+father(joseph,marie).
+mother(edwina,marie).
+father(joseph,charles).
+mother(edwina,charles).
+
+%                       -------Declare Rules-----------
+
+same(X,Y):- X=Y.
+child(X,Y):- parent(Y,X).
+
+parent(X,Y):- father(X,Y); mother(X,Y). % X is father/mother of Y
+
+sibling(X,Y):-
+    parent(Z,X), parent(Z,Y), not(X=Y), not(stop(Z)).
+    % X-Y sibling if Z is parent of both X-Y and X-Y is not the same person.
+
+cousin(X,Y):-
+    grandparent(A,X), grandparent(B,Y), not(sibling(X,Y)), not(same(X,Y)), A=B,
+    not(stop(A)), not(stop(B)).
+    % X is cousin of Y if parents of X & Y's are sibling.
+
+uncle(X,Y):-
+     parent(A,Y), sibling(X,A), not(parent(X,Y)), male(X), not(stop(A)).
+     % X is uncle of Y if parent of Y(A) and X are sibling.
+
+aunt(X,Y):-
+     parent(A,Y), sibling(X,A), not(parent(X,Y)), female(X), not(stop(A)).
+     % X is aunt of Y if parent of Y(A) and X are sibling.
+    
+grandparent(X,Y):-
+    parent(Z,Y), parent(X,Z), not(stop(Z)).
+    % X is grandparent of Y if Z is parent of Y and X is parent of Z
+
+great_grandparent(X,Y):-
+    parent(Z,Y), grandparent(X,Z), not(stop(Z)).
+    % X is great-grandparent of Y if parent of Y's grandparent is X.
+    
+great_great_grandparent(X,Y):-
+    parent(Z,Y), great_grandparent(X, Z), not(stop(Z)).
+    % parent of Y's great grandparent is X.
+
+% ------ 2nd/3rd cousin ---------
+secondCousin(X,Y):-
+      great_grandparent(Z,X),  great_grandparent(Z,Y),
+      not(sibling(X,Y)),      not(cousin(X,Y)),
+      not(same(X,Y)).
+      % Great grandparents of X & Y are same but X & Y are not Sibling or Cousin or not same person.
+
+thirdCousin(X,Y):-
+       great_great_grandparent(Z,X),    great_great_grandparent(Z,Y),  not(stop(Z)),
+       great_grandparent(A,X),          not(great_grandparent(A,X)),  not(stop(A)), not(stop(B)),
+       not(sibling(X,Y)), not(cousin(X,Y)), not(same(X,Y))).
+       % great great grandparent of X & Y are same and X-Y are not sibling/cousin.
+
+% 2nd cousin once removed X,Y:- child(X,Z), secodCousin(Z,Y).
