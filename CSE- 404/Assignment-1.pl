@@ -128,7 +128,7 @@ fcthr(X, Y):-   % 'fcthr - First Cousin 3rd removed'\
     % 'great grandparent of X(Z) are cousins'.
 
 fcfr(X, Y):-    % 'first Cousin 4th removed'.
-    great_great_grandfather(Z,X), cousin(Z,Y).
+    great_great_grandparent(Z,X), cousin(Z,Y).
     % 'great great grandparent of X(Z) are cousins'.
 
 
