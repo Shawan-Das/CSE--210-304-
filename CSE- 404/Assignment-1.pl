@@ -15,16 +15,28 @@ male(anirban).   female(prantika).
 male(protoy).   female(parmita).
 male(shishir).   female(shyma).
 male(shawan).    female(gulu).
+male(prosonto).  female(abantika).
+male(purno).     female(pihu).
+female(pritu).   female(anu).
 
 %                       -------Declare Facts-----------
 
-%---------- 4th gen-------
+%--------- 6th gen -------
+father(purno, anu).
+mother(pihu, anu).
+
+%---------- 5th gen-------
 father(anirban, gulu).
 mother(prantika, gulu).
-
-%---------- 3rd gen--------
+father(prosonto, purno).
+mother(abantika, purno).
+father(prosonto, pritu).
+mother(abantika, pritu).
+%---------- 4th gen--------
 father(atindro, prantika).
 mother(jamuna, prantika).
+father(atindro, abantika).
+mother(jamuna, abantika).
 father(bishowjit, protoy).
 mother(tora, protoy).
 father(bishowjit, parmita).
@@ -36,7 +48,7 @@ mother(sima, shishir).
 father(sibu, shyma).
 mother(sima, shyma).
 
-%---------- 2nd gen-------
+%---------- 3rd gen-------
 father(oboni, sibu).
 mother(sadhona, sibu).
 father(oboni, loknath).
@@ -46,14 +58,14 @@ mother(sadhona, bishowjit).
 father(motilal, atindro).
 mother(archana, atindro).
 
-% -------- 1st gen--------
+% -------- 2nd gen--------
 father(haripodo, oboni).
 mother(anjona, oboni).
 father(sajal, archana).
 mother(lipika, archana).
 
 
-%------- order -------
+%------- 1st gen -------
 father(joyonto, anjona).
 mother(joti, anjona).
 father(joyonto, sajal).
